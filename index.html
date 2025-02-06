@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Quicksand:wght@300..700&display=swap');
+
+      body {
+        font-family: Quicksand;
+      }
+      h1 {
+        font-family: Poiret One;
+      }
+      #calcButton {
+        background-color: lightgrey;
+        border: none;
+        border-radius; 5px;
+        padding: 10px;
+      }
+      input {
+        margin-right: 10px;
+        border-radius: 5px;
+        padding: 10px;
+      }
+    </style>
+    <script>
+      function calculateFactorial() {
+        var inputNumber = document.getElementById("inputNumber").value;
+        var i = inputNumber - 1
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Factorial Calulator</h1>
+    <main>
+      <input id="inputNumber" type="number">
+      <button id="calcButton" onClick="calculateFactorial()">Calculate Factorial</button>
+    </main>
+  </body>
+</html>
