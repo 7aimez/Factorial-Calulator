@@ -1,38 +1,288 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorial Calculator</title>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Quicksand:wght@300..700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
 
-      body {
-        font-family: Quicksand;
-      }
-      h1 {
-        font-family: Poiret One;
-      }
-      #calcButton {
-        background-color: lightgrey;
-        border: none;
-        border-radius; 5px;
-        padding: 10px;
-      }
-      input {
-        margin-right: 10px;
-        border-radius: 5px;
-        padding: 10px;
-      }
+        :root {
+            --bg-primary: #fafaf9;
+            --bg-secondary: #ffffff;
+            --text-primary: #1c1917;
+            --text-secondary: #57534e;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --border: #e7e5e4;
+            --shadow: rgba(0, 0, 0, 0.05);
+        }
+
+        .dark {
+            --bg-primary: #0c0a09;
+            --bg-secondary: #1c1917;
+            --text-primary: #fafaf9;
+            --text-secondary: #a8a29e;
+            --accent: #fbbf24;
+            --accent-hover: #f59e0b;
+            --border: #292524;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 3rem;
+            font-weight: 500;
+        }
+
+        .calc-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            font-size: 1.125rem;
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Manrope', sans-serif;
+            background: var(--accent);
+            color: #1c1917;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .output-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .output-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        #output {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            word-break: break-all;
+            line-height: 1.2;
+            min-height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #output.error {
+            font-size: 1rem;
+            color: #ef4444;
+        }
+
+        @media (max-width: 480px) {
+            .calc-card {
+                padding: 1.75rem;
+            }
+
+            h1 {
+                margin-bottom: 0.25rem;
+            }
+
+            .subtitle {
+                margin-bottom: 2rem;
+            }
+        }
     </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Factorial Calculator</h1>
+        <p class="subtitle">Compute n! for any non-negative integer</p>
+
+        <div class="calc-card">
+            <div class="input-group">
+                <label for="input">Enter Number</label>
+                <input
+                    id="input"
+                    type="number"
+                    min="0"
+                    placeholder="e.g., 5"
+                    autofocus
+                >
+            </div>
+
+            <button id="calcButton" onclick="run()">Calculate</button>
+
+            <div class="output-section">
+                <div class="output-label">Result</div>
+                <div id="output">—</div>
+            </div>
+        </div>
+    </div>
+
     <script>
-      function calculateFactorial() {
-        var inputNumber = document.getElementById("inputNumber").value;
-        var i = inputNumber - 1
-      }
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        function factorial(n) {
+            n = Number(n);
+
+            if (n < 0) {
+                return "Factorial is not defined for negative numbers";
+            }
+            if (n === 0 || n === 1) {
+                return 1;
+            }
+
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+
+            return result;
+        }
+
+        function run() {
+            const input = document.getElementById("input");
+            const output = document.getElementById("output");
+
+            const value = input.value.trim();
+
+            if (value === '') {
+                output.textContent = 'Please enter a number';
+                output.classList.add('error');
+                return;
+            }
+
+            const result = factorial(value);
+
+            if (typeof result === 'string') {
+                output.textContent = result;
+                output.classList.add('error');
+            } else {
+                output.textContent = result.toLocaleString();
+                output.classList.remove('error');
+            }
+        }
+
+        // Allow Enter key to calculate
+        document.getElementById('input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                run();
+            }
+        });
     </script>
-  </head>
-  <body>
-    <h1>Factorial Calulator</h1>
-    <main>
-      <input id="inputNumber" type="number">
-      <button id="calcButton" onClick="calculateFactorial()">Calculate Factorial</button>
-    </main>
-  </body>
+</body>
 </html>
+
