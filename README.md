@@ -1,2 +1,5 @@
 # Factorial-Calulator
-Calculates the factorial of a number
+
+**Simple script that calculates the factorial of a number.**
+
+---
